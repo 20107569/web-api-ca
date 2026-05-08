@@ -1,0 +1,166 @@
+import React from "react";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
+import { getGenres } from "../../api/tmdb-api";
+import { useQuery } from '@tanstack/react-query';
+import Spinner from '../spinner';
+import Box from "@mui/material/Box";
+
+
+const formControl = 
+  {
+    margin: 1,
+    minWidth: "90%",
+    backgroundColor: "rgb(255, 255, 255)"
+  };
+
+export default function FilterMoviesCard(props) {
+
+    const { data, error, isPending, isError } = useQuery({
+    queryKey: ['genres'],
+    queryFn: getGenres,
+  });
+
+  if (isPending) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+  const genres = data.genres;
+  if (genres[0].name !== "All"){
+    genres.unshift({ id: "0", name: "All" });
+  }
+
+  const handleChange = (e, type, value) => {
+    e.preventDefault();
+    props.onUserInput(type, value); 
+  };
+
+  const handleTextChange = (e, props) => {
+    handleChange(e, "name", e.target.value);
+  };
+
+  const handleGenreChange = (e) => {
+    handleChange(e, "genre", e.target.value);
+  };
+
+  const handleRatingChange = (e) => {
+    handleChange(e, "rating", e.target.value);
+  };
+
+  const handleSortChange = (e) => {
+    handleChange(e, "sort", e.target.value);
+  };
+  
+
+
+  return (
+    <Card 
+      sx={{
+        backgroundColor: "#f8bbd0",
+        borderRadius: "12px",
+        boxShadow: 3,
+      }} 
+      variant="outlined">
+      <CardContent>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Typography variant="h5" component="h1">
+          <SearchIcon fontSize="large" color="primary" />
+          Filter the movies.
+        </Typography>
+        </Box>
+            <TextField
+                sx={{...formControl}}
+                id="filled-search"
+                label="Search field"
+                type="search"
+                variant="filled"
+                value={props.titleFilter}
+                onChange={handleTextChange}
+            />
+
+        <FormControl sx={{...formControl}}>
+          <InputLabel id="genre-label">Genre</InputLabel>
+            <Select
+                labelId="genre-label"
+                id="genre-select"
+                defaultValue=""
+                value={props.genreFilter}
+                onChange={handleGenreChange}
+            >
+
+            {genres.map((genre) => {
+              return (
+                <MenuItem key={genre.id} value={genre.id}>
+                  {genre.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+
+        <FormControl sx={{...formControl}}>
+          <InputLabel id="rating-label">Rating</InputLabel>
+            <Select
+                labelId="rating-label"
+                id="rating-select"
+                defaultValue=""
+                value={props.ratingFilter}
+                onChange={handleRatingChange}
+            >
+            <MenuItem value="0">All</MenuItem>
+            <MenuItem value="1">1+</MenuItem>
+            <MenuItem value="2">2+</MenuItem>
+            <MenuItem value="3">3+</MenuItem>
+            <MenuItem value="4">4+</MenuItem>
+            <MenuItem value="5">5+</MenuItem>
+            <MenuItem value="6">6+</MenuItem>
+            <MenuItem value="7">7+</MenuItem>
+            <MenuItem value="8">8+</MenuItem>
+            <MenuItem value="9">9+</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl sx={{...formControl}}>
+          <InputLabel id="sort-label">Sort By</InputLabel>
+            <Select
+                labelId="sort-label"
+                id="sort-select"
+                defaultValue=""
+                value={props.sortBy}
+                onChange={handleSortChange}
+            >
+              <MenuItem value="0">None</MenuItem>
+              <MenuItem value="title_asc">Title (A-Z)</MenuItem>
+              <MenuItem value="rating_asc">Rating (Low-High)</MenuItem>
+              <MenuItem value="rating_desc">Rating (High-Low)</MenuItem>
+          </Select>
+        </FormControl>
+
+      </CardContent>
+      <CardMedia
+        sx={{ height: 250 }}
+        image={img}
+        title="Filter"
+      />
+      <CardContent>
+        <Typography variant="h5" component="h1">
+          <SearchIcon fontSize="large" />
+          Filter the movies.
+          <br />
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
