@@ -2,6 +2,7 @@ import './db';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
+import moviesRouter from './api/movies';  
 
 // other imports
 import usersRouter from './api/users';
@@ -29,6 +30,8 @@ const port = process.env.PORT || 8080;
 app.use(express.static('public'));
 
 app.use(express.json());
+
+app.use('/api/movies', moviesRouter); 
 
 //Users router
 app.use('/api/users', usersRouter);
