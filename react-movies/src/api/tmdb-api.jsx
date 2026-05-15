@@ -223,7 +223,7 @@ export const getTopRatedMovies = () => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      `http://localhost:8080/api/person/${id}`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {
