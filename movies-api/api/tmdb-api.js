@@ -83,3 +83,15 @@ export const getMovie = async (id) => {
 
     return await response.json();
 };
+
+export const getMovieImages = async (id) => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.TMDB_KEY}&language=en-US`
+    );
+
+    if (!response.ok) {
+        throw new Error(response.json().message);
+    }
+
+    return await response.json();
+};
