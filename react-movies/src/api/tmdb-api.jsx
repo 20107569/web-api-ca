@@ -261,9 +261,7 @@ export const getTopRatedMovies = () => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      "https://api.themoviedb.org/3/discover/movie?api_key=" +
-      import.meta.env.VITE_TMDB_KEY +
-      "&with_genres=" + id
+      `http://localhost:8080/api/movies/genre/${id}`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {

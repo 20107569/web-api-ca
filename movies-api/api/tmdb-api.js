@@ -167,3 +167,15 @@ export const getPersonMovies = async (id) => {
 
     return await response.json();
 };
+
+export const getMoviesByGenre = async (id) => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_KEY}&with_genres=${id}`
+    );
+
+    if (!response.ok) {
+        throw new Error(response.json().message);
+    }
+
+    return await response.json();
+};
