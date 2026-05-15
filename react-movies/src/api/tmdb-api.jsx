@@ -183,7 +183,7 @@ export const getTopRatedMovies = () => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      `http://localhost:8080/api/movies/${id}/recommendations`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {
@@ -203,7 +203,7 @@ export const getTopRatedMovies = () => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      `http://localhost:8080/api/movies/${id}/watchproviders`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {

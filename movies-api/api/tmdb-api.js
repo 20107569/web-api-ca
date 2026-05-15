@@ -119,3 +119,27 @@ export const getMovieCredits = async (id) => {
 
     return await response.json();
 };
+
+export const getMovieRecommendations = async (id) => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.TMDB_KEY}&language=en-US`
+    );
+
+    if (!response.ok) {
+        throw new Error(response.json().message);
+    }
+
+    return await response.json();
+};
+
+export const getMovieWatchProviders = async (id) => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=${process.env.TMDB_KEY}&language=en-US`
+    );
+
+    if (!response.ok) {
+        throw new Error(response.json().message);
+    }
+
+    return await response.json();
+};
