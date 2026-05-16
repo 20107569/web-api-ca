@@ -58,6 +58,13 @@ const SiteHeader = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  // Sign user out and send them to home page
+  const handleSignOut = () => {
+    context.signout();
+    navigate("/");
+  };
+
+
   return (
     <>
       <AppBar position="fixed" color="primary">
@@ -109,6 +116,13 @@ const SiteHeader = () => {
                     </MenuItem>
                   ))}
 
+                  {/* Show sign out option in mobile menu when logged in */}
+                  {context.isAuthenticated && (
+                    <MenuItem onClick={handleSignOut}>
+                      Sign out
+                    </MenuItem>
+                  )}
+
                 </Menu>
               </>
             ) : (
@@ -125,6 +139,24 @@ const SiteHeader = () => {
                     {opt.label}
                   </Button>
                 ))}
+
+                {/* Show welcome message and sign out button on desktop when logged in */}
+                {context.isAuthenticated ? (
+                  <>
+                    <Typography sx={{ ml: 2 }}>
+                      Welcome {context.userName}!
+                    </Typography>
+
+                    <Button color="inherit" onClick={handleSignOut}>
+                      Sign out
+                    </Button>
+                  </>
+                ) : (
+                  <Typography sx={{ ml: 2 }}>
+                    You are not logged in
+                  </Typography>
+                )}
+
               </>
             )}
         </Toolbar>
