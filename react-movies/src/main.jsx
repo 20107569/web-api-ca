@@ -20,6 +20,8 @@ import MustWatchPage from './pages/mustWatchPage';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginPage from "./pages/loginPage";
 import SignupPage from "./pages/signupPage";
+import AuthContextProvider from "./contexts/authContext";
+import ProtectedRoutes from "./protectedRoutes";
 
 const theme = createTheme({
   palette: {
@@ -54,26 +56,30 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
       <BrowserRouter>
+      <AuthContextProvider>
         <SiteHeader />
         <MoviesContextProvider>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route element={<ProtectedRoutes />}>
             <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+            <Route path="/movies/mustwatch" element={<MustWatchPage />} />
+            <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
+            </Route>
             <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
             <Route path="/movies/popular" element={<PopularMoviesPage />} />
             <Route path="/movies/nowplaying" element={<NowPlayingMoviesPage />} />
             <Route path="/movies/toprated" element={<TopRatedMoviesPage />} />
             <Route path="/actors/:id" element={<ActorPage />} />
             <Route path="/genre/:id" element={<GenrePage />} />
-            <Route path="/movies/mustwatch" element={<MustWatchPage />} />
             <Route path="*" element={ <Navigate to="/" /> } />
           </Routes>
         </MoviesContextProvider>
+        </AuthContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
       </ThemeProvider>
