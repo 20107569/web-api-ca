@@ -18,6 +18,8 @@ import ActorPage from "./pages/actorPage";
 import GenrePage from "./pages/genrePage";
 import MustWatchPage from './pages/mustWatchPage';  
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LoginPage from "./pages/loginPage";
+import SignupPage from "./pages/signupPage";
 
 const theme = createTheme({
   palette: {
@@ -55,11 +57,12 @@ const App = () => {
         <SiteHeader />
         <MoviesContextProvider>
           <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
             <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
             <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="*" element={ <Navigate to="/" /> } />
             <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
             <Route path="/movies/popular" element={<PopularMoviesPage />} />
@@ -68,6 +71,7 @@ const App = () => {
             <Route path="/actors/:id" element={<ActorPage />} />
             <Route path="/genre/:id" element={<GenrePage />} />
             <Route path="/movies/mustwatch" element={<MustWatchPage />} />
+            <Route path="*" element={ <Navigate to="/" /> } />
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
