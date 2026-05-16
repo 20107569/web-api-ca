@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { AuthContext } from "../../contexts/authContext";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
@@ -18,12 +19,20 @@ const SiteHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const context = useContext(AuthContext);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   
   const navigate = useNavigate();
 
-  const menuOptions = [
+  const loggedOutMenuOptions = [
+    { label: "Home", path: "/" },
+    { label: "Login", path: "/login" },
+    { label: "Signup", path: "/signup" }
+  ];
+
+  const loggedInMenuOptions = [
     { label: "Home", path: "/" },
     { label: "Favorites", path: "/movies/favorites" },
     { label: "Must Watch", path: "/movies/mustwatch" },
@@ -32,6 +41,10 @@ const SiteHeader = () => {
     { label: "Now Playing", path: "/movies/nowplaying" },
     { label: "Top Rated", path: "/movies/toprated" }
   ];
+
+  const menuOptions = context.isAuthenticated
+    ? loggedInMenuOptions
+    : loggedOutMenuOptions;
 
   const handleMenuSelect = (pageURL) => {
     setAnchorEl(null);
@@ -86,6 +99,7 @@ const SiteHeader = () => {
                       {opt.label}
                     </MenuItem>
                   ))}
+
                 </Menu>
               </>
             ) : (
