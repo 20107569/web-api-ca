@@ -42,15 +42,18 @@ const SiteHeader = () => {
     { label: "Top Rated", path: "/movies/toprated" }
   ];
 
+  // Chooses which menu to display based on login state
   const menuOptions = context.isAuthenticated
     ? loggedInMenuOptions
     : loggedOutMenuOptions;
 
+  // Handles clicking a menu option
   const handleMenuSelect = (pageURL) => {
     setAnchorEl(null);
     navigate(pageURL);
   };
 
+  // Opens mobile dropdown menu
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,9 +65,13 @@ const SiteHeader = () => {
           <Typography variant="h4" fontWeight="bold" sx={{ flexGrow: 0, mr: 2 }}>
             TMDB Client
           </Typography>
+
+          {/* Subtitle - hidden on small screens */}
           <Typography variant="subtitle1" sx={{ flexGrow: 1, opacity: 0.8, display: { xs: 'none', md: 'block' } }}>
             All you ever wanted to know about Movies!
           </Typography>
+
+          {/* Mobile navigation menu */}
             {isMobile ? (
               <>
                 <IconButton
@@ -91,6 +98,8 @@ const SiteHeader = () => {
                   open={open}
                   onClose={() => setAnchorEl(null)}
                 >
+
+                  {/* Generate mobile menu items */}
                   {menuOptions.map((opt) => (
                     <MenuItem
                       key={opt.label}
@@ -103,6 +112,8 @@ const SiteHeader = () => {
                 </Menu>
               </>
             ) : (
+
+              /* Desktop navigation buttons */
               <>
                 {menuOptions.map((opt) => (
                   <Button
@@ -118,6 +129,8 @@ const SiteHeader = () => {
             )}
         </Toolbar>
       </AppBar>
+
+      {/* Push page content below fixed header */}
       <Offset />
     </>
   );
