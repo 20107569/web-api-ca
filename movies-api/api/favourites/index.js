@@ -9,4 +9,16 @@ router.get('/', async (req, res) => {
     res.status(200).json(favourites);
 });
 
+// Add favourite
+router.post('/', async (req, res) => {
+    const favourite = await Favourite.create(req.body);
+    res.status(201).json(favourite);
+});
+
+// Delete favourite
+router.delete('/:id', async (req, res) => {
+    await Favourite.findByIdAndDelete(req.params.id);
+    res.status(200).json({success: true});
+});
+
 export default router;
