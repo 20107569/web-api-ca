@@ -296,3 +296,34 @@ export const signup = async (username, password) => {
     });
     return response.json();
 };
+
+export const getFavourites = async () => {
+    const response = await fetch(
+        `http://localhost:8080/api/favourites`
+    );
+    return response.json();
+};
+
+export const addFavourite = async(movie) => {
+    const res = await fetch(
+        `http://localhost:8080/api/favourites`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(movie)
+        }
+    )
+        return res.json();
+};
+
+export const deleteFavourite = async (id) => {
+    const res =  fetch(
+        `http://localhost:8080/api/favourites/${id}`,
+        {
+            method: 'DELETE'
+        }
+    )
+    return res;
+};
