@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import moviesRouter from './api/movies';  
+import favouriteRouter from './api/favourites'; 
 
 // other imports
 import usersRouter from './api/users';
@@ -32,6 +33,8 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.use('/api/movies', moviesRouter); 
+
+app.use('/api/favourites', favouriteRouter); 
 
 //Users router
 app.use('/api/users', usersRouter);
